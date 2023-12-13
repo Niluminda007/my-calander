@@ -1,19 +1,17 @@
-import Header from "./components/Header"
-import { useAppContext } from "./context/AppContext"
-import { ThemeType } from "./types/types";
+import Header from "./components/Header";
+import { useAppContext } from "./context/AppContext";
 
 
 const App = () => {
-  const {theme} = useAppContext();
+  const { theme } = useAppContext();
   console.log(theme);
-  return (
-  
-      <div className={`${theme === ThemeType.LIGHT_THEME ? "bg-white" : "bg-black"}  h-full w-full flex flex-col`}>
-      <Header />
-      </div>
 
-    
-  )
+  return (
+    <div className={`h-full w-full flex flex-col bg-white dark:bg-black`}>
+      <Header />
+      <div className={`h-64 w-64 bg-red-400 dark:bg-yellow-600`}></div>
+    </div>
+  );
 }
 
-export default App
+export default App;

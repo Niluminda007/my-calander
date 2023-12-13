@@ -18,8 +18,9 @@ type AppProviderProps = {
 const AppProvider:React.FC<AppProviderProps> = ({children})=>{
     const [theme, setTheme] = useState<ThemeType>(ThemeType.LIGHT_THEME);
     const switchTheme = () => {
+        document.documentElement.classList.toggle('dark', theme === ThemeType.DARK_THEME);
         setTheme((prevTheme) => (prevTheme === ThemeType.LIGHT_THEME ? ThemeType.DARK_THEME : ThemeType.LIGHT_THEME));
-    };
+      };
     return (
         <AppContext.Provider value={{
             theme,
