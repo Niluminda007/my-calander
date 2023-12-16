@@ -1,33 +1,30 @@
-import { DateType, MonthDateTypes } from "../types/types";
+import { DateType } from "../types/types";
 import DayItem from "./DayItem";
-import { getDaysInMonth, sub, endOfMonth } from "date-fns";
-
-// 0 -> sunday
-// 1 - > monday
-// 2 -> tuesday
-// 3 -> wendesday
-// 4 -> thursday
-// 5 -> friday
-// 6 -> saturday
+import {
+  getPrevMonthDates,
+  getCurrentMonthDates,
+  getNextMonthDates,
+} from "../utils/date-utils";
+import { useAppContext } from "../context/AppContext";
 
 const CalanderBody = () => {
+  const { activeMonth, activeYear } = useAppContext();
   // Previous Month
-  const previousMonth = sub(new Date(), { months: 1 });
-  const prevDatesInThelastMonthToShowInTheCurrentMonthInActive: DateType[] =
-    getPrevDatesInThelastMonthToShowInTheCurrentMonthInActive(previousMonth);
+  const prevMonthDates: DateType[] = getPrevMonthDates(activeMonth, activeYear);
 
   //Current Month
-  const datesInTheCurrentMonthActive: DateType[] =
-    getDatesInTheCurrentMonthActive();
+  const currentMonthDates: DateType[] = getCurrentMonthDates(
+    activeMonth,
+    activeYear
+  );
 
   // Next Month
-  const nextDatesInThenextMonthToShowInTheCurrentMonthInActive: DateType[] =
-    getNextDatesInTheNextMonthToShowInTheCurrentMonthInActive();
+  const nextMonthDates: DateType[] = getNextMonthDates(activeMonth, activeYear);
 
   const allDates: DateType[] = [
-    ...prevDatesInThelastMonthToShowInTheCurrentMonthInActive,
-    ...datesInTheCurrentMonthActive,
-    ...nextDatesInThenextMonthToShowInTheCurrentMonthInActive,
+    ...prevMonthDates,
+    ...currentMonthDates,
+    ...nextMonthDates,
   ];
 
   return (
@@ -39,52 +36,4 @@ const CalanderBody = () => {
   );
 };
 
-const getDatesInTheCurrentMonthActive = (): DateType[] => {
-  let currentDates: DateType[] = [];
-
-  const numberOfDatesInTheMonth = getDaysInMonth(new Date());
-
-  for (let i = 1; i <= numberOfDatesInTheMonth; i++) {
-    currentDates = [
-      ...currentDates,
-      { date: i, dateType: MonthDateTypes.CURRENT },
-    ];
-  }
-
-  return currentDates;
-};
-
-const getPrevDatesInThelastMonthToShowInTheCurrentMonthInActive = (
-  previousMonth: Date
-): DateType[] => {
-  let prevDates: DateType[] = [];
-  const lastDateOfThePreviousMonth: number =
-    endOfMonth(previousMonth).getDate();
-  const lastDayOfThePreviousMonth: number = endOfMonth(previousMonth).getDay();
-  let startingDateForThePrevDates = lastDateOfThePreviousMonth;
-  for (let i = lastDayOfThePreviousMonth; i >= 0; i--) {
-    prevDates = [
-      ...prevDates,
-      { date: startingDateForThePrevDates--, dateType: MonthDateTypes.PREV },
-    ];
-  }
-  return prevDates;
-};
-
-const getNextDatesInTheNextMonthToShowInTheCurrentMonthInActive =
-  (): DateType[] => {
-    let nextDates: DateType[] = [];
-    const currentDate = new Date();
-    const lastDayOfTheCurrentMonth = endOfMonth(currentDate).getDay();
-
-    let startingDateForTheNextDates = 1;
-
-    for (let i = lastDayOfTheCurrentMonth; i < 6; i++) {
-      nextDates = [
-        ...nextDates,
-        { date: startingDateForTheNextDates++, dateType: MonthDateTypes.NEXT },
-      ];
-    }
-    return nextDates;
-  };
 export default CalanderBody;

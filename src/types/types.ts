@@ -5,6 +5,10 @@ export enum ThemeType {
 export type AppContextType = {
   theme: ThemeType;
   switchTheme: () => void;
+  activeYear: number;
+  activeMonth: number;
+  goToPreviousMonth: () => void;
+  goToNextMonth: () => void;
 };
 
 export type DayOfWeekType = {
@@ -22,3 +26,8 @@ export enum MonthDateTypes {
   PREV,
   NEXT,
 }
+
+export type MonthOfYearType = {
+  id: number;
+  name: String;
+};
