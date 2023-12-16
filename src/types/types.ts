@@ -11,3 +11,14 @@ export type DayOfWeekType = {
   id: number;
   name: String;
 };
+
+export type DateType = {
+  date: number;
+  dateType: MonthDateTypes;
+};
+
+export enum MonthDateTypes {
+  CURRENT,
+  PREV,
+  NEXT,
+}

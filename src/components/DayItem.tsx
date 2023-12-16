@@ -1,31 +1,21 @@
-import { DayOfWeekType } from "../types/types";
+import { DateType, MonthDateTypes } from "../types/types";
 
 type DayItemProps = {
-  item?: DayOfWeekType;
-  dateNumber: number;
-  startingDay?: number;
-  pos?: number;
+  date: DateType;
 };
 
-const DayItem: React.FC<DayItemProps> = ({
-  dateNumber,
-  item,
-  startingDay,
-  pos,
-}) => {
-  let showDay =
-    startingDay && pos !== undefined && (startingDay <= pos ? true : false);
-  if (pos === undefined) {
-    showDay = true;
-  }
-  console.log();
-  console.log(dateNumber + " = " + showDay);
+const DayItem: React.FC<DayItemProps> = ({ date }) => {
+  const dateStyle =
+    date.dateType === MonthDateTypes.CURRENT
+      ? "bg-white text-black"
+      : date.dateType === MonthDateTypes.PREV
+      ? "bg-red-400 text-green-400"
+      : "bg-yellow-400 text-red-400";
+
   return (
-    <div className="bg-white dark:bg-yellow-400 flex justify-center items-center border border-[#ebedf0] text-black shadow-md flex-col">
-      {item && <span>{item.name}</span>}
-      <span className={`${showDay ? "opacity-100" : "opacity-0"}`}>
-        {dateNumber}
-      </span>
+    <div
+      className={`${dateStyle} flex justify-center items-center border border-[#ebedf0]  shadow-md flex-col`}>
+      {date.date}
     </div>
   );
 };
