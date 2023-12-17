@@ -1,6 +1,8 @@
 import { DateType, MonthDateTypes } from "../types/types";
-import { endOfMonth, getDaysInMonth, sub } from "date-fns";
+import { endOfMonth, getDaysInMonth, sub, startOfMonth } from "date-fns";
 import { DAYS_IN_WEEK } from "../constants/days";
+const START_OF_WEEK = 0;
+const TOTAL_DATES_DISPLAYED_IN_GRID = 42;
 
 export const getCurrentMonthDates = (
   activeMonth: number,
@@ -20,6 +22,11 @@ export const getPrevMonthDates = (
   activeYear: number
 ): DateType[] => {
   const prevMonthDates: DateType[] = [];
+  const currentMonthStartDate = startOfMonth(
+    new Date(activeYear, activeMonth)
+  ).getDay();
+  if (currentMonthStartDate === START_OF_WEEK) return [];
+
   const previousMonth = sub(new Date(activeYear, activeMonth), { months: 1 });
 
   const lastDateOfPreviousMonth: number = endOfMonth(previousMonth).getDate();
@@ -36,7 +43,8 @@ export const getPrevMonthDates = (
 
 export const getNextMonthDates = (
   activeMonth: number,
-  activeYear: number
+  activeYear: number,
+  totalDatesFromPreviousMonthAndThisMonth: number
 ): DateType[] => {
   const nextMonthDates: DateType[] = [];
   const lastDayOfTheCurrentMonth = endOfMonth(
@@ -44,8 +52,15 @@ export const getNextMonthDates = (
   ).getDay();
 
   let startingDateForTheNextDates = 1;
+  // Calculate the upper bound for next month's dates
+  const doubleWeekPlusOne = 2 * DAYS_IN_WEEK + 1;
+  const upperBoundForNextMonthDates =
+    totalDatesFromPreviousMonthAndThisMonth + DAYS_IN_WEEK <
+    TOTAL_DATES_DISPLAYED_IN_GRID
+      ? doubleWeekPlusOne
+      : DAYS_IN_WEEK;
 
-  for (let i = lastDayOfTheCurrentMonth; i < DAYS_IN_WEEK; i++) {
+  for (let i = lastDayOfTheCurrentMonth; i < upperBoundForNextMonthDates; i++) {
     nextMonthDates.push({
       date: startingDateForTheNextDates++,
       dateType: MonthDateTypes.NEXT,

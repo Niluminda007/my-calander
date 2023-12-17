@@ -10,6 +10,7 @@ const FIRST_MONTH = 0;
 const AppContext = createContext<AppContextType>({
   theme: ThemeType.LIGHT_THEME,
   switchTheme: () => {},
+  currentDate: 0,
   activeYear: 0,
   activeMonth: 0,
   goToPreviousMonth: () => {},
@@ -24,6 +25,7 @@ type AppProviderProps = {
 
 const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [theme, setTheme] = useState<ThemeType>(ThemeType.LIGHT_THEME);
+  const currentDate: number = new Date().getDate();
   const currentMonth: number = getMonth(new Date());
   const currentYear = getYear(new Date());
   const [activeYear, setActiveYear] = useState<number>(currentYear);
@@ -72,6 +74,7 @@ const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       value={{
         theme,
         switchTheme,
+        currentDate,
         activeMonth,
         activeYear,
         goToNextMonth,

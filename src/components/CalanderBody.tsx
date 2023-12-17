@@ -19,7 +19,13 @@ const CalanderBody = () => {
   );
 
   // Next Month
-  const nextMonthDates: DateType[] = getNextMonthDates(activeMonth, activeYear);
+  const totalDatesFromPreviousMonthAndThisMonth: number =
+    prevMonthDates.length + currentMonthDates.length;
+  const nextMonthDates: DateType[] = getNextMonthDates(
+    activeMonth,
+    activeYear,
+    totalDatesFromPreviousMonthAndThisMonth
+  );
 
   const allDates: DateType[] = [
     ...prevMonthDates,
@@ -29,8 +35,8 @@ const CalanderBody = () => {
 
   return (
     <>
-      {allDates.map((date, index) => (
-        <DayItem key={`${index}_${date.date}`} date={date} />
+      {allDates.map((item, index) => (
+        <DayItem key={`${index}_${item.date}`} date={item} />
       ))}
     </>
   );

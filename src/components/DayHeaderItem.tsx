@@ -6,7 +6,7 @@ type DayHeaderItem = {
 
 const DayHeaderItem: React.FC<DayHeaderItem> = ({ day }) => {
   return (
-    <div className="bg-white dark:bg-yellow-400 flex justify-center items-center border border-[#ebedf0] text-black shadow-md flex-col">
+    <div className="flex justify-center items-center text-black flex-col font-semibold">
       {day.name}
     </div>
   );
