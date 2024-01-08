@@ -1,6 +1,11 @@
 // Import Statements
 import { createContext, useContext, useState, useEffect } from "react";
-import { AppContextType, ThemeType } from "../types/types";
+import {
+  AppContextType,
+  DateType,
+  MonthDateTypes,
+  ThemeType,
+} from "../types/types";
 import { getMonth, getYear } from "date-fns";
 
 const DARK_MODE_CLASS = "dark";
@@ -10,7 +15,10 @@ const FIRST_MONTH = 0;
 const AppContext = createContext<AppContextType>({
   theme: ThemeType.LIGHT_THEME,
   switchTheme: () => {},
-  currentDate: 0,
+  currentDate: {
+    dateType: MonthDateTypes.CURRENT,
+    date: 0,
+  },
   activeYear: 0,
   activeMonth: 0,
   goToPreviousMonth: () => {},
@@ -25,7 +33,10 @@ type AppProviderProps = {
 
 const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [theme, setTheme] = useState<ThemeType>(ThemeType.LIGHT_THEME);
-  const currentDate: number = new Date().getDate();
+  const currentDate: DateType = {
+    dateType: MonthDateTypes.CURRENT,
+    date: new Date().getDate(),
+  };
   const currentMonth: number = getMonth(new Date());
   const currentYear = getYear(new Date());
   const [activeYear, setActiveYear] = useState<number>(currentYear);
@@ -79,7 +90,8 @@ const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         activeYear,
         goToNextMonth,
         goToPreviousMonth,
-      }}>
+      }}
+    >
       {children}
     </AppContext.Provider>
   );

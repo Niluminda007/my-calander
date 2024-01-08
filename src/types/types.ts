@@ -5,7 +5,7 @@ export enum ThemeType {
 export type AppContextType = {
   theme: ThemeType;
   switchTheme: () => void;
-  currentDate: number;
+  currentDate: DateType;
   activeYear: number;
   activeMonth: number;
   goToPreviousMonth: () => void;

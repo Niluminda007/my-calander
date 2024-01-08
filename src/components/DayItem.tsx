@@ -15,11 +15,14 @@ const DayItem: React.FC<DayItemProps> = ({ date }) => {
       : "text-[#ADB5BD]";
 
   const currentDateStyle =
-    currentDate === date.date ? "bg-[#7209B7] text-white" : "";
+    date.date === currentDate.date && date.dateType === currentDate.dateType
+      ? "bg-[#7209B7] text-white"
+      : "";
 
   return (
     <div
-      className={`${dateStyle} flex justify-center items-center border border-[#ebedf0]  shadow-md flex-col font-semibold ${currentDateStyle}`}>
+      className={`${dateStyle} flex justify-center items-center border border-[#ebedf0]  shadow-md flex-col font-semibold ${currentDateStyle}`}
+    >
       {date.date}
     </div>
   );
